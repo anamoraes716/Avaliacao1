@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestão Educacional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('Fundo.jpg'); 
+            background-size: cover;
+            background-position: center;
+            color: #333;
+        }
+
+        header {
+            background-color: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        .data-hora {
+            font-size: 1.2em;
+            margin: 10px 0;
+            color: #FFF;
+        }
+
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin: 0 5px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        main {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            max-width: 800px;
+            margin: 30px auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        h2, h3 {
+            color: #4CAF50;
+            margin-top: 20px;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        .selected {
+            background-color: rgba(76, 175, 80, 0.3);
+        }
+
+        .foto-perfil {
+            width: 150px;
+            height: 150px;
+            border-radius: 75px;
+            margin-bottom: 15px;
+            background-color: #ddd;
+            display: inline-block;
+            background-size: cover;
+            background-position: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: rgba(76, 175, 80, 0.9);
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        input:focus, select:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Bem-vindo ao Sistema de Gestão Educacional</h1>
+    <div class="data-hora" id="data-hora"></div>
+    <nav>
+        <a href="#" onclick="showSection('login')">Login</a>
+    </nav>
+</header>
+
+<main>
+
+    <div id="login" class="hidden">
+        <h1>Login</h1>
+        <form onsubmit="event.preventDefault(); login();">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" required>
+            <label for="materia">Matéria:</label>
+            <select id="materia" name="materia" required>
+                <option value="">Selecione a matéria</option>
+                <option value="Linguagens">Linguagens</option>
+                <option value="Ciências Humanas">Ciências Humanas</option>
+                <option value="Matemática">Matemática</option>
+                <option value="Ciências da Natureza">Ciências da Natureza</option>
+            </select>
+            <button type="submit">Entrar</button>
+        </form>
+        <p>Não tem uma conta? <a href="#" onclick="showSection('cadastro')">Cadastre-se aqui</a>.</p>
+    </div>
+
+    <div id="cadastro" class="hidden">
+        <h1>Cadastro</h1>
+        <form onsubmit="event.preventDefault(); showSection('login');">
+            <label for="novo_email">Email:</label>
+            <input type="email" id="novo_email" name="novo_email" required>
+            <label for="nova_senha">Senha:</label>
+            <input type="password" id="nova_senha" name="nova_senha" required>
+            <button type="submit">Cadastrar</button>
+        </form>
+        <p>Já tem uma conta? <a href="#" onclick="showSection('login')">Faça login aqui</a>.</p>
+    </div>
+
+    <div id="perfil" class="hidden">
+        <h2>Perfil do Professor</h2>
+        <div class="foto-perfil" id="foto-perfil"></div>
+        <p>Email: <span id="perfil-email"></span></p>
+        <p>Matéria: <span id="perfil-materia"></span></p>
+        <div class="data-hora" id="data-hora-perfil"></div>
+        <nav>
+            <button onclick="showSection('main')">Voltar ao Painel</button>
+        </nav>
+    </div>
+
+    <div id="main" class="hidden">
+        <h2>Painel do Professor</h2>
+        <nav>
+            <button onclick="showSection('login')">Sair</button>
+            <button onclick="showSection('perfil')">Ver Meu Perfil</button>
+        </nav>
+        <button onclick="showSection('cadastro_turma')">Cadastrar Turma e Atividades</button>
+        
+        <h3>Turmas e Atividades</h3>
+        <ul id="turmas-list">
+        
+        </ul>
+    </div>
+
+    <div id="cadastro_turma" class="hidden">
+        <h1>Cadastrar Turma e Atividades</h1>
+        <form onsubmit="event.preventDefault(); cadastrarTurma();">
+            <label for="nome_turma">Nome da Turma:</label>
+            <input type="text" id="nome_turma" name="nome_turma" required>
+            <label for="descricao_atividade">Descrição da Atividade:</label>
+            <input type="text" id="descricao_atividade" name="descricao_atividade" required>
+            <button type="submit">Cadastrar</button>
+        </form>
+        <button onclick="showSection('main')">Voltar</button>
+    </div>
+
+    <div id="atividades_turma" class="hidden">
+        <h1>Atividades da Turma</h1>
+        <h2 id="turma-nome">Turma: </h2>
+        
+        <h3>Atividades</h3>
+        <ul id="atividades-list">
+        
+        </ul>
+        <button onclick="showSection('main')">Voltar</button>
+    </div>
+</main>
+
+<script>
+    let turmas = {};
+    let usuario = {};
+
+    const fotosProfessores = {
+        "Linguagens": "OIP.jpg",
+        "Ciências Humanas": "OIP2.jpg",
+        "Matemática": "OIP3.jpg",
+        "Ciências da Natureza": "OIP4.jpg"
+    };
+
+    function atualizarDataHora() {
+        const agora = new Date();
+        const formatoData = agora.toLocaleString('pt-BR', {
+            dateStyle: 'full',
+            timeStyle: 'short'
+        });
+        document.getElementById('data-hora').innerText = formatoData;
+        document.getElementById('data-hora-perfil').innerText = formatoData;
+    }
+    setInterval(atualizarDataHora, 1000);
+    atualizarDataHora();
+
+    function showSection(sectionId) {
+        const sections = document.querySelectorAll('main > div');
+        sections.forEach(section => section.classList.add('hidden'));
+        const selectedSection = document.getElementById(sectionId);
+        if (selectedSection) {
+            selectedSection.classList.remove('hidden');
+        }
+        atualizarTurmas();
+    }
+
+    function login() {
+        const email = document.getElementById('email').value;
+        const materia = document.getElementById('materia').value;
+        usuario = { email, materia };
+
+        document.getElementById('perfil-email').innerText = usuario.email;
+        document.getElementById('perfil-materia').innerText = usuario.materia;
+
+        const fotoUrl = fotosProfessores[materia];
+        const fotoPerfil = document.getElementById('foto-perfil');
+        fotoPerfil.style.backgroundImage = `url(${fotoUrl})`;
+
+        showSection('perfil');
+    }
+
+    function cadastrarTurma() {
+        const nomeTurma = document.getElementById('nome_turma').value;
+        const descricaoAtividade = document.getElementById('descricao_atividade').value;
+
+        if (!turmas[nomeTurma]) {
+            turmas[nomeTurma] = [];
+        }
+
+        turmas[nomeTurma].push(descricaoAtividade);
+        document.getElementById('nome_turma').value = '';
+        document.getElementById('descricao_atividade').value = '';
+        atualizarTurmas();
+        showSection('main');
+    }
+
+    function visualizarAtividades(nomeTurma) {
+        document.getElementById('turma-nome').innerText = `Turma: ${nomeTurma}`;
+        const atividadesList = document.getElementById('atividades-list');
+        atividadesList.innerHTML = '';
+
+        turmas[nomeTurma].forEach(atividade => {
+            const li = document.createElement('li');
+            li.innerHTML = `${atividade} <button onclick="excluirAtividade('${nomeTurma}', '${atividade}')">Excluir</button>`;
+            atividadesList.appendChild(li);
+        });
+        showSection('atividades_turma');
+    }
+
+    function excluirTurma(nomeTurma) {
+        delete turmas[nomeTurma];
+        atualizarTurmas();
+    }
+
+    function excluirAtividade(nomeTurma, atividade) {
+        turmas[nomeTurma] = turmas[nomeTurma].filter(a => a !== atividade);
+        visualizarAtividades(nomeTurma);
+    }
+
+    function atualizarTurmas() {
+        const turmasList = document.getElementById('turmas-list');
+        turmasList.innerHTML = '';
+        for (const nomeTurma in turmas) {
+            const li = document.createElement('li');
+            li.innerHTML = `${nomeTurma} <button onclick="excluirTurma('${nomeTurma}')">Excluir</button> <button onclick="visualizarAtividades('${nomeTurma}')">Visualizar</button>`;
+            turmasList.appendChild(li);
+        }
+    }
+</script>
+
+<footer>
+    <p>&copy; 2024 Sistema de Gestão Educacional. Todos os direitos reservados.</p>
+</footer>
+
+</body>
+</html>
